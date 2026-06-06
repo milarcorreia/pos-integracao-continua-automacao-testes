@@ -1,0 +1,15 @@
+{
+  "name": "trabalho-javascript",
+  "version": "1.0.0",
+  "description": "Trabalho de Conclusão da Disciplina - Programação para Automação de Testes Parte 1",
+  "main": "src/ServicoDePagamento.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "mocha": "^10.2.0"
+  }
+}

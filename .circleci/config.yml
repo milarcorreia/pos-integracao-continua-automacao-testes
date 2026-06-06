@@ -1,0 +1,18 @@
+version: 2.1
+jobs:
+  build-and-test:
+    docker:
+      - image: cimg/node:20.0
+    steps:
+      - checkout
+      - run:
+          name: Instalar Dependências
+          command: npm install
+      - run:
+          name: Executar Testes Automatizados
+          command: npm test
+workflows:
+  run-pipeline:
+    jobs:
+      - build-and-test
+      
