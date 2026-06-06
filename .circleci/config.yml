@@ -6,13 +6,23 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Instalar Dependências
+          name: Instalar Dependencias
           command: npm install
       - run:
-          name: Executar Testes Automatizados
-          command: npm test
+          name: Executar Testes com Relatorio Mocha
+          # O comando abaixo roda os testes salvando o resultado em um arquivo XML (JUnit)
+          command: |
+            mkdir -p test-results
+            ./node_modules/.bin/mocha test/**/*.test.js --reporter xunit --reporter-options output=test-results/results.xml || true
+      
+      # ISSO É O PLUGIN: Armazena e exibe o relatório de testes na interface do CircleCI
+      - store_test_results:
+          path: test-results
+      - store_artifacts:
+          path: test-results
+          destination: mocha-report
+
 workflows:
   run-pipeline:
     jobs:
       - build-and-test
-      
