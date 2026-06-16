@@ -1,0 +1,38 @@
+name: Pipeline de Integração Contínua (CI)
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+  schedule:
+    - cron: '0 8 * * 1'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Instalar dependências e Relatório
+        run: |
+          npm install
+          npm install mochawesome mocha --save-dev
+
+      - name: Executar Testes Automatizados e Gerar Relatório
+        run: npx mocha test/**/*.js --reporter mochawesome --reporter-options reportDir=mochawesome-report,overwrite=true,html=true,json=false
+
+      - name: Armazenar Relatório de Testes (Artifact)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: relatorio-de-testes-html
+          path: mochawesome-report/
+          retention-days: 5
